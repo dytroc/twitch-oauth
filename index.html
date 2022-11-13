@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>트위치 OAuth 토큰 얻기</title>
+    <link rel='stylesheet' href='./style.css' />
+    <script>
+        function generateToken() {
+            const clientId = document.getElementById('client-id').value;
+            const clientSecret = document.getElementById('client-secret').value;
+
+            if (!clientId) return alert('클라이언트 ID가 비어있습니다!');
+            if (!clientSecret) return alert('클라이언트 시크릿이 비어있습니다!');
+
+            const currentURL = window.location.hostname + window.location.pathname;
+
+            window.location.replace(
+                `https://id.twitch.tv/oauth2/authorize?client_id=${encodeURI(clientId)}&force_verify=true&redirect_uri=https://${encodeURI(currentURL + 'result.html')}&response_type=code&scope=chat%3Aread&state=${encodeURI(clientSecret + '|' + clientId)}`
+            );
+        }
+    </script>
+</head>
+
+<body>
+    <div id="container">
+        <h1>트위치 OAuth 토큰 얻기</h1>
+
+        <div class="form">
+            <label htmlFor="client-id">트위치 클라이언트 ID</label>
+            <input id="client-id" />
+        </div>
+
+        <div class="form">
+            <label htmlFor="client-secret">트위치 클라이언트 시크릿</label>
+            <input id="client-secret" type="password" />
+        </div>
+
+        <div class="button" onclick="generateToken()">토큰 가져오기</div>
+    </div>
+</body>
+
+</html>
