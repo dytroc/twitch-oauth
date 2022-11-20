@@ -15,7 +15,7 @@
             const currentURL = window.location.hostname + window.location.pathname;
 
             window.location.replace(
-                `https://id.twitch.tv/oauth2/authorize?client_id=${encodeURI(clientId)}&force_verify=true&redirect_uri=https://${encodeURI(currentURL + 'result.html')}&response_type=code&scope=chat%3Aread&state=${encodeURI(clientSecret + '|' + clientId)}`
+                `https://id.twitch.tv/oauth2/authorize?client_id=${encodeURI(clientId)}&force_verify=true&redirect_uri=https://${encodeURI(currentURL + 'result.html')}&response_type=token&scope=chat%3Aread&state=${encodeURI(clientId)}`
             );
         }
     </script>

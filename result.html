@@ -6,25 +6,11 @@
     <link rel='stylesheet' href='./style.css' />
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            const urlSearchParams = new URLSearchParams(window.location.search);
-            const params = Object.fromEntries(urlSearchParams.entries());
-            const code = params['code'];
-            if (!code) return alert('인증에 실패하였습니다!');
-            const secret = decodeURI(params['state']).split('|');
-            if (!secret || secret.length != 2) return alert('인증에 실패하였습니다!');
-
-            fetch(`https://id.twitch.tv/oauth2/token?client_id=${secret[1]}&client_secret=${secret[0]}&code=${code}&grant_type=authorization_code&redirect_uri=https://${window.location.hostname + window.location.pathname}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }).then((result) => {
-                result.json().then((json) => {
-                    console.log(json);
-
-                    document.getElementById('token-result').innerHTML = json['access_token'] ?? '문제가 발생했습니다!';
-                });
-            })
+            const params = window.location.hash.slice(1).split('&').reduce((acc, data) => {
+                const splitted = data.split('=');
+                return { ...acc, [splitted[0]]: splitted.slice(1).join('=') };
+            }, {});
+            document.getElementById('token-result').innerHTML = params['access_token'] ?? '문제가 발생했습니다!';
         });
     </script>
 </head>
